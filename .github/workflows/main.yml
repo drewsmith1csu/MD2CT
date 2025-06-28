@@ -20,7 +20,11 @@ public class BankAccountGUI extends JFrame implements ActionListener {
         mainPanel = new JPanel();
         mainPanel.setLayout(new FlowLayout());
 
-        balanceLabel = new JLabel("Balance: " + balance);
+        bbalanceLabel:
+    type: JLabel
+    text: "Balance: "
+    value: 500  # Assuming 'balance' is a numerical value
+
         mainPanel.add(balanceLabel);
 
         amountField = new JTextField(10);
