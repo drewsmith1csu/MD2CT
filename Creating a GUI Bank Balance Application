@@ -1,0 +1,66 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class BankAccountGUI extends JFrame implements ActionListener {
+
+    private JPanel mainPanel;
+    private JLabel balanceLabel;
+    private JTextField amountField;
+    private JButton depositButton, withdrawButton;
+    private double balance = 0.0;
+
+    public BankAccountGUI() {
+        setTitle("Bank Account Application");
+        setSize(400, 200);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null); // Center the window
+
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new FlowLayout());
+
+        balanceLabel = new JLabel("Balance: " + balance);
+        mainPanel.add(balanceLabel);
+
+        amountField = new JTextField(10);
+        mainPanel.add(amountField);
+
+        depositButton = new JButton("Deposit");
+        depositButton.addActionListener(this);
+        mainPanel.add(depositButton);
+
+        withdrawButton = new JButton("Withdraw");
+        withdrawButton.addActionListener(this);
+        mainPanel.add(withdrawButton);
+
+        add(mainPanel);
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String action = e.getActionCommand();
+        try {
+            double amount = Double.parseDouble(amountField.getText());
+            if (action.equals("Deposit")) {
+                balance += amount;
+            } else if (action.equals("Withdraw")) {
+                if (balance >= amount) {
+                    balance -= amount;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Insufficient funds!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+            balanceLabel.setText("Balance: " + balance);
+            amountField.setText(""); // Clear the input field
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Invalid amount entered.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public static void main(String[] args) {
+        new BankAccountGUI();
+    }
+}
